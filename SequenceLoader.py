@@ -2,7 +2,7 @@
 """
 Created on Thu Oct 10 15:24:56 2024
 
-@author: Eva
+@author: Eva Bauer
 """
 import torch
 from torch.utils.data import Dataset

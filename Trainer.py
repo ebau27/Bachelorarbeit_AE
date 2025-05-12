@@ -2,7 +2,7 @@
 """
 Created on Wed Mar  5 12:44:54 2025
 
-@author: Eva
+@author: Eva Bauer
 """
 
 from PIL import Image

@@ -2,7 +2,7 @@
 """
 Created on Thu Nov 28 13:18:16 2024
 
-@author: Eva
+@author: Eva Bauer
 """
 
 import torch
@@ -10,86 +10,10 @@ import torch.nn as nn
 import numpy as np
 import torchvision
 
-from ResNet18_Encoder import Encoder
-from ResNet18_Decoder import Decoder
-
 from adapt_ResNet_Decoder import adaptDecoder
 from adapt_ResNet_Encoder import adaptEncoder
 
 
-
-class linearAutoencoder(nn.Module):
-    def __init__(self):
-        super().__init__()
-        
-        self.encoder = nn.Sequential(
-            nn.Linear(15000, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 128)
-            )
-        
-        self.decoder = nn.Sequential(
-            nn.Linear(128, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 15000),
-            nn.Tanh()
-            )
-        
-    def forward(self, x):
-        emb_x = self.encoder(x)
-        dec_x = self.decoder(emb_x)
-        return dec_x
-         
-        
-
-## basic convolutional Autoencoder inspiered by the VGG-16 architectur
-class convAutoencoder(nn.Module):
-    #INPUT [64,3,50,100]
-    def __init__(self):
-        super().__init__()
-        
-        self.encoder = nn.Sequential(nn.Conv2d(in_channels=3, out_channels=32, kernel_size=(3,5), stride=1, padding=(1,2)),
-                                      nn.ReLU(),
-                                      nn.Conv2d(in_channels=32, out_channels=64, kernel_size=(3,5), stride=1, padding=(1,2)),
-                                      nn.ReLU(),
-                                    )
-
-        self.decoder = nn.Sequential(nn.ConvTranspose2d(in_channels=64, out_channels=32, kernel_size=(3,5), stride=1, padding=(1,2)),
-                                      nn.ReLU(),
-                                      nn.ConvTranspose2d(in_channels=32, out_channels=3, kernel_size=(3,5), stride=1, padding=(1,2)),
-                                      nn.Tanh()
-                                    )
-        
-    def forward(self, x):
-        emb_x = self.encoder(x)
-        dec_x = self.decoder(emb_x)
-        return dec_x
-    
-    
-class ResNetAutoencoder(nn.Module):
-    def __init__(self, latent_dim=32, input_dim=[3,32,128]):
-        super().__init__()
-        self.encoder = Encoder(latent_dim)
-        
-        test = torch.Tensor(1,input_dim[0],input_dim[1],input_dim[2])
-        test_x = self.encoder.encode_layers(test)
-        h_size, w_size = test_x.shape[2], test_x.shape[3]
-        in_dim, layer_dims, fc_dim = self.encoder.check_layer_dim()
-        
-        self.decoder = Decoder(latent_dim=latent_dim, in_dim=in_dim, layer_dims=layer_dims, fc_dim=fc_dim, rev_pool=[h_size, w_size]) 
-        
-        
-    def forward(self, x):
-        # von (N,3,50,100) zu (N,3,64,128)
-        x = nn.functional.pad(x, (14,14,7,7), mode='constant', value=0) #links, rechts, oben, unten
-        #print(x)
-        x_lat = self.encoder(x)
-        x_decoded = self.decoder(x_lat)
-        #print(x_decoded)
-        # zurück zu (N,3,50,100)
-        x_decoded = x_decoded[:, :, 7:-7, 14:-14]
-        
-        return x_decoded
     
 class adaptResNetAE(nn.Module):
     def __init__(self, latent_dim=32, input_dim=[3,32,128], block_num=4, maxpool=True, dropout_rate=0.0):

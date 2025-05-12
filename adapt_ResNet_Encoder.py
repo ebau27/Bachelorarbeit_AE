@@ -2,7 +2,7 @@
 """
 Created on Thu Dec 19 13:47:56 2024
 
-@author: Eva
+@author: Eva Bauer
 """
 
 import torch
@@ -10,7 +10,7 @@ import torch.nn as nn
 import torchvision
 
 
-## Gerade nur für Input Tensor Dimension (batch, 3, 64, 128) - am besten ändern um allgemeiner zu machen
+## Gerade nur für Input Tensor Dimension (batch, 3, 64, 128) 
 class adaptEncoder(nn.Module):
     def __init__(self, latent_dim=32, maxpool=True, block_num=4, dropout_rate=0.0):
         super().__init__()
@@ -62,8 +62,3 @@ class adaptEncoder(nn.Module):
         return x_lat
     
     
-    
-# if __name__ == '__main__':
-#     test = torch.Tensor(32, 3, 32, 128)
-#     AE = adaptEncoder(latent_dim=91, block_num=2)
-#     test_lat = AE(test)

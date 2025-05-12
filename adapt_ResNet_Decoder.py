@@ -2,7 +2,8 @@
 """
 Created on Thu Dec 19 14:50:09 2024
 
-@author: Eva
+@author: Eva Bauer
+
 mit Input von https://github.com/eleannavali/resnet-18-autoencoder/tree/main
 und ChatGPT CAE optimierungstipps (11.12.24 10:58) (InvertBasicBlock)
 """

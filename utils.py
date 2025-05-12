@@ -2,7 +2,7 @@
 """
 Created on Mon Feb 17 13:44:16 2025
 
-@author: Eva
+@author: Eva Bauer
 """
 
 import numpy as np
@@ -357,6 +357,7 @@ def gen_Liss_Kurve(data, liss, recon):
     plt.close()
 
     return buf
+
 # Animation der Koordinaten als gif 
 def model_animation(input_step, fig, ax, color=[['model','blue','green']], COB=[]):
     if type(input_step) is not list:
