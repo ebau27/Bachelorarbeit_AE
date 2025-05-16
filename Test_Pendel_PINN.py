@@ -40,7 +40,7 @@ class NN(nn.Module):
 
         self.fc_ih = nn.Sequential(
                         nn.Linear(INPUT_DIM, HIDDEN_DIM),
-                        nn.Tanh())
+                        nn.ReLU())
         
         self.fc_hh = nn.Sequential(
                         nn.Linear(HIDDEN_DIM, HIDDEN_DIM),
